@@ -765,7 +765,8 @@ class NeutronNetworkDeploymentSerializer(NetworkDeploymentSerializer):
         return {
             "L3": {
                 "subnet": public_cidr,
-                "gateway": public_gw,
+                #"gateway": public_gw, #这个网关值
+                "gateway": cluster.network_config.external_gateway,
                 "nameservers": [],
                 "floating": join_range(
                     cluster.network_config.floating_ranges[0]),

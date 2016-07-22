@@ -59,6 +59,7 @@ class NeutronConfig(NetworkingConfig):
     base_mac = Column(LowercaseString(17), nullable=False)
     internal_cidr = Column(String(25))
     internal_gateway = Column(String(25))
+    external_gateway = Column(String(25))
 
     segmentation_type = Column(
         Enum(*consts.NEUTRON_SEGMENT_TYPES,
