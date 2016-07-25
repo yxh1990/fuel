@@ -525,7 +525,7 @@ function($, _, i18n, React, utils, models, controls, dialogs, componentMixins) {
                 },this),
                 error:function(msg)
                 {
-                   alert('设置启动角色失败!');
+                   //alert('设置启动角色失败!');
                 }
             });
         },
@@ -549,7 +549,7 @@ function($, _, i18n, React, utils, models, controls, dialogs, componentMixins) {
                 },this),
                 error:function(msg)
                 {
-                   alert('设置停止角色失败!');
+                   //alert('设置停止角色失败!');
                 }
             });
         },
