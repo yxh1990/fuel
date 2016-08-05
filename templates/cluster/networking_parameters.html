@@ -111,6 +111,21 @@
     <legend class="networks" data-i18n="cluster_page.network_tab.networking_parameters.l3_configuration"></legend>
     <div>
 
+    <div class="network-attribute">
+          <div class="parameter-name">是否启用</div>
+          <div class="vlan-tagging clearfix">
+            <label class="parameter-box clearfix">
+              <div class="parameter-control">
+                <div class="custom-tumbler">
+                  <input type="checkbox" <%= disabled %>>
+                  <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+                </div>
+              </div>
+            </label>
+            <div class="error validation-error"><span class="help-inline"></span></div>
+          </div>
+     </div>
+
       <div class="network-attribute">
         <label class="parameter-box clearfix">
           <div class="parameter-name" data-i18n="cluster_page.network_tab.networking_parameters.internal_cidr"></div>
@@ -160,11 +175,70 @@
     
     <div class="network-attribute">
         <label class="parameter-box clearfix">
-          <div class="parameter-name">external_gateway</div>
+          <div class="parameter-name">External Gateway</div>
           <div class="parameter-control"><input type="text" name="external_gateway" <%= disabled %> /></div>
           <div class="error validation-error"><span class="help-inline"></span></div>
         </label>
       </div>
-
   </div>
+
+
+ <div>
+    <legend class="networks">Basic Network Configuration</legend>
+    <div>
+      <div class="network-attribute">
+          <div class="parameter-name">是否启用</div>
+          <div class="vlan-tagging clearfix">
+            <label class="parameter-box clearfix">
+              <div class="parameter-control">
+                <div class="custom-tumbler">
+                  <input type="checkbox" <%= disabled %>>
+                  <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+                </div>
+              </div>
+            </label>
+            <div class="error validation-error"><span class="help-inline"></span></div>
+          </div>
+    </div>
+    <div class="network-attribute">
+      <div class="parameter-name">Allocation Pool</div>
+      <div class="dns_nameservers-row range-row clearfix">
+        <label class="parameter-box clearfix">
+          <div class="parameter-control">
+            <input class="range" type="text" name="range0" placeholder="127.0.0.1" value="" <%= disabled %> />
+          </div>
+        </label>
+        <label class="parameter-box clearfix">
+          <div class="parameter-control">
+            <input class="range" type="text" name="range1" placeholder="127.0.0.1" value="" <%= disabled %> />
+          </div>
+        </label>
+        <div class="error validation-error"><span class="help-inline"></span></div>
+      </div>
+    </div>
+
+    <div class="network-attribute">
+      <div class="parameter-name" data-i18n="cluster_page.network_tab.networking_parameters.dns_servers"></div>
+      <div class="dns_nameservers-row range-row clearfix">
+        <label class="parameter-box clearfix">
+          <div class="parameter-control">
+            <input class="range" type="text" name="brange0" placeholder="127.0.0.1" value="" <%= disabled %> />
+          </div>
+        </label>
+        <label class="parameter-box clearfix">
+          <div class="parameter-control">
+            <input class="range" type="text" name="brange1" placeholder="127.0.0.1" value="" <%= disabled %> />
+          </div>
+        </label>
+        <div class="error validation-error"><span class="help-inline"></span></div>
+      </div>
+    </div>
+    <div class="network-attribute">
+        <label class="parameter-box clearfix">
+          <div class="parameter-name">Gateway</div>
+          <div class="parameter-control"><input type="text" name="basenet_gateway" <%= disabled %> /></div>
+          <div class="error validation-error"><span class="help-inline"></span></div>
+        </label>
+    </div>
+  </div> 
 </div>

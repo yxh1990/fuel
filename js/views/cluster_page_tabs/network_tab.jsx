@@ -12,6 +12,7 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations
  * under the License.
+    此文件已过时
  **/
 define(
 [
@@ -841,7 +842,7 @@ function($, _, i18n, Backbone, React, models, dispatcher, utils, componentMixins
                 manager = networkParameters.get('net_manager'),
                 idRangePrefix = networkParameters.get('segmentation_type') == 'gre' ? 'gre_id' : 'vlan',
                 ns = 'cluster_page.network_tab.networking_parameters.';
-
+                console.log(manager);
             return (
                 <div>
                     {manager ?
