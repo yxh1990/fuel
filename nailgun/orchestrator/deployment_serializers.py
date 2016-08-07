@@ -753,7 +753,7 @@ class NeutronNetworkDeploymentSerializer(NetworkDeploymentSerializer):
         return iface_attrs
     @classmethod
     def _generate_basic_network(cls,cluster):
-        return cluster.network_config.basic_net
+        return json.loads(cluster.network_config.basic_net)
 
     @classmethod
     def _generate_external_network(cls, cluster):
@@ -770,7 +770,7 @@ class NeutronNetworkDeploymentSerializer(NetworkDeploymentSerializer):
                 "subnet": public_cidr,
                 #"gateway": public_gw, #这个网关值
                 "gateway": cluster.network_config.external_gateway,
-                "enabled": cluster.network_config.l3_enable,
+                "enabled": cluster.network_config.l3_enabled,
                 "nameservers": [],
                 "floating": join_range(
                     cluster.network_config.floating_ranges[0]),
