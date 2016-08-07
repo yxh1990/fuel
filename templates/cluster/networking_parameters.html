@@ -111,21 +111,6 @@
     <legend class="networks" data-i18n="cluster_page.network_tab.networking_parameters.l3_configuration"></legend>
     <div>
 
-    <div class="network-attribute">
-          <div class="parameter-name">是否启用</div>
-          <div class="vlan-tagging clearfix">
-            <label class="parameter-box clearfix">
-              <div class="parameter-control">
-                <div class="custom-tumbler">
-                  <input type="checkbox" <%= disabled %>>
-                  <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
-                </div>
-              </div>
-            </label>
-            <div class="error validation-error"><span class="help-inline"></span></div>
-          </div>
-     </div>
-
       <div class="network-attribute">
         <label class="parameter-box clearfix">
           <div class="parameter-name" data-i18n="cluster_page.network_tab.networking_parameters.internal_cidr"></div>
@@ -146,7 +131,29 @@
   </div>
 
 <% } %>
-
+    <div class="network-attribute">
+          <div class="parameter-name">Enabled External Network</div>
+          <div class="clearfix">
+           <!--把div class='vlan-tagging clearfix'改成div class='clearfix'-->
+            <label class="parameter-box clearfix">
+              <div class="parameter-control">
+                <div class="custom-tumbler">
+                  <% if (l3enabled==true) {%>
+                    <input type="checkbox" id="l3enabled" checked <%= disabled %>>
+                 <% } else { %>
+                    <input type="checkbox" id="l3enabled" <%= disabled %>>
+                 <% } %>
+                   <!-- [if !IE |(gte IE 9)]> -->
+                      <span>&nbsp;</span>
+                   <!-- <![endif] -->
+                </div>
+              </div>
+            </label>
+            <div class="error validation-error">
+               <span class="help-inline"></span>
+            </div>
+          </div>
+    </div>
     <div class="network-attribute floating">
       <div class="range-row-header">
         <div data-i18n="cluster_page.network_tab.range_start"></div>
@@ -173,7 +180,7 @@
       </div>
     </div>
     
-    <div class="network-attribute">
+  <div class="network-attribute">
         <label class="parameter-box clearfix">
           <div class="parameter-name">External Gateway</div>
           <div class="parameter-control"><input type="text" name="external_gateway" <%= disabled %> /></div>
@@ -182,17 +189,25 @@
       </div>
   </div>
 
-
  <div>
     <legend class="networks">Basic Network Configuration</legend>
     <div>
       <div class="network-attribute">
-          <div class="parameter-name">是否启用</div>
-          <div class="vlan-tagging clearfix">
+          <div class="parameter-name">Enable Basic Network</div>
+          <div class="clearfix">
+          <% var basenet = JSON.parse(basic_net); 
+             var l3 =basenet?basenet["L3"]:null; 
+             var basenetenabled=l3?l3["enabled"]:false; 
+             var range0=l3?l3["range"].split(":")[0]:"10.142.26.20"
+             var range1=l3?l3["range"].split(":")[1]:"10.142.26.200" %>
             <label class="parameter-box clearfix">
               <div class="parameter-control">
                 <div class="custom-tumbler">
-                  <input type="checkbox" <%= disabled %>>
+                  <% if (basenetenabled==true) {%>
+                    <input type="checkbox" id="basenet_enaled" checked <%= disabled %>>
+                  <% } else { %>
+                    <input type="checkbox" id="basenet_enaled" <%= disabled %>>
+                  <% } %>
                   <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
                 </div>
               </div>
@@ -201,43 +216,37 @@
           </div>
     </div>
     <div class="network-attribute">
+      <div class="range-row-header">
+          <div data-i18n="cluster_page.network_tab.range_start"></div>
+          <div data-i18n="cluster_page.network_tab.range_end"></div>
+      </div>
       <div class="parameter-name">Allocation Pool</div>
       <div class="dns_nameservers-row range-row clearfix">
         <label class="parameter-box clearfix">
           <div class="parameter-control">
-            <input class="range" type="text" name="range0" placeholder="127.0.0.1" value="" <%= disabled %> />
+            <input class="range" type="text" id="baserange0" placeholder="127.0.0.1" value="<%= range0%>" <%= disabled %> />
           </div>
         </label>
         <label class="parameter-box clearfix">
           <div class="parameter-control">
-            <input class="range" type="text" name="range1" placeholder="127.0.0.1" value="" <%= disabled %> />
+            <input class="range" type="text" id="baserange1" placeholder="127.0.0.1" value="<%= range1%>" <%= disabled %> />
           </div>
         </label>
-        <div class="error validation-error"><span class="help-inline"></span></div>
+        <div class="error validation-error">
+           <span class="help-inline"></span>
+        </div>
       </div>
     </div>
 
     <div class="network-attribute">
-      <div class="parameter-name" data-i18n="cluster_page.network_tab.networking_parameters.dns_servers"></div>
-      <div class="dns_nameservers-row range-row clearfix">
-        <label class="parameter-box clearfix">
-          <div class="parameter-control">
-            <input class="range" type="text" name="brange0" placeholder="127.0.0.1" value="" <%= disabled %> />
-          </div>
-        </label>
-        <label class="parameter-box clearfix">
-          <div class="parameter-control">
-            <input class="range" type="text" name="brange1" placeholder="127.0.0.1" value="" <%= disabled %> />
-          </div>
-        </label>
-        <div class="error validation-error"><span class="help-inline"></span></div>
-      </div>
-    </div>
-    <div class="network-attribute">
         <label class="parameter-box clearfix">
           <div class="parameter-name">Gateway</div>
-          <div class="parameter-control"><input type="text" name="basenet_gateway" <%= disabled %> /></div>
-          <div class="error validation-error"><span class="help-inline"></span></div>
+          <div class="parameter-control">
+             <input type="text" id="basenet_gateway" <%= disabled %> value="<%= l3?l3.gateway:'10.142.26.254' %>" />
+          </div>
+          <div class="error validation-error">
+             <span class="help-inline"></span>
+          </div>
         </label>
     </div>
   </div> 

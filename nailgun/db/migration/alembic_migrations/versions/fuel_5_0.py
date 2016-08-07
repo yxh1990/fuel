@@ -381,6 +381,8 @@ def upgrade():
                     sa.Column(
                         'external_gateway', sa.String(length=25),
                         nullable=True),
+                    sa.Column('l3_enabled', sa.Boolean(), nullable=False),
+                    sa.Column('basic_net', sa.Text(), nullable=False),
                     sa.Column('segmentation_type', sa.Enum(
                         'vlan', 'gre', name='segmentation_type'),
                         nullable=False),

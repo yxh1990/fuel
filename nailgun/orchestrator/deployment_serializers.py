@@ -751,6 +751,9 @@ class NeutronNetworkDeploymentSerializer(NetworkDeploymentSerializer):
         iface_attrs['trunks'] = trunks
 
         return iface_attrs
+    @classmethod
+    def _generate_basic_network(cls,cluster):
+        return cluster.network_config.basic_net
 
     @classmethod
     def _generate_external_network(cls, cluster):
@@ -767,6 +770,7 @@ class NeutronNetworkDeploymentSerializer(NetworkDeploymentSerializer):
                 "subnet": public_cidr,
                 #"gateway": public_gw, #这个网关值
                 "gateway": cluster.network_config.external_gateway,
+                "enabled": cluster.network_config.l3_enable,
                 "nameservers": [],
                 "floating": join_range(
                     cluster.network_config.floating_ranges[0]),
@@ -807,7 +811,8 @@ class NeutronNetworkDeploymentSerializer(NetworkDeploymentSerializer):
     def generate_predefined_networks(cls, cluster):
         return {
             "net04_ext": cls._generate_external_network(cluster),
-            "net04": cls._generate_internal_network(cluster)
+            "net04": cls._generate_internal_network(cluster),
+            "basic_net": cls._generate_basic_network(cluster)
         }
 
     @classmethod

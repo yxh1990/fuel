@@ -19,6 +19,8 @@ from sqlalchemy import Enum
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy import Boolean
+from sqlalchemy import Text
 
 from nailgun import consts
 from nailgun.db.sqlalchemy.models.base import Base
@@ -60,7 +62,8 @@ class NeutronConfig(NetworkingConfig):
     internal_cidr = Column(String(25))
     internal_gateway = Column(String(25))
     external_gateway = Column(String(25))
-
+    l3_enabled = Column(Boolean, default=True)
+    basic_net = Column(Text)
     segmentation_type = Column(
         Enum(*consts.NEUTRON_SEGMENT_TYPES,
              name='segmentation_type'),

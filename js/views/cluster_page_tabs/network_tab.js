@@ -130,13 +130,34 @@ function($, _, i18n, Backbone, utils, models, commonViews, dialogViews, networkT
         updateInitialConfiguration: function() {
             this.initialConfiguration = new models.NetworkConfiguration(this.networkConfiguration.toJSON(), {parse: true});
         },
+        getBase_Net: function ()
+        {
+          var basic_net = {};
+              basic_net["shared"]=true;
+          var L2={};
+              L2['network_type']="local";
+              L2['router_ext']=false;
+              L2['physnet']="";
+              L2['segment_id']="";
+          basic_net['L2']=L2;
+          var L3={};
+              L3['nameservers']="[]";
+              L3['range']=this.$('#baserange0').val()+":"+this.$('#baserange1').val();
+              L3['gateway']=this.$('#basenet_gateway').val();
+              L3['enable_dhcp']=true;
+              L3['enabled']=document.getElementById("basenet_enaled").checked;
+         basic_net['L3']=L3;
+         return basic_net;
+        },
         applyChanges: function() {
             var deferred;
             //暂时先注释掉,不要其在页面做任何验证
             //if (!this.networkConfiguration.validationError) {
                 this.disableControls();
                 this.prepareIpRanges();
-                console.log(this.networkConfiguration);
+                var l3enabled=document.getElementById("l3enabled").checked;
+                var basenet=JSON.stringify(this.getBase_Net());
+                this.networkConfiguration.get('networking_parameters').set({'l3_enabled':l3enabled,'basic_net':basenet});
                 deferred = Backbone.sync('update', this.networkConfiguration)
                     .done(_.bind(function(task) {
                         if (task && task.status == 'error') {
@@ -434,6 +455,9 @@ function($, _, i18n, Backbone, utils, models, commonViews, dialogViews, networkT
 
     NetworkingParameters = NetworkTabSubview.extend({
         template: _.template(networkingParametersTemplate),
+        events:{
+           
+        },
         bindings: {
             'input[name=fixed_networks_cidr]': 'fixed_networks_cidr',
             'input[name=base_mac]': 'base_mac',
@@ -496,6 +520,8 @@ function($, _, i18n, Backbone, utils, models, commonViews, dialogViews, networkT
             this.$el.html(this.template({
                 netManager: this.parameters.get('net_manager'),
                 segmentation: this.parameters.get('segmentation_type'),
+                l3enabled: this.parameters.get('l3_enabled'),
+                basic_net: this.parameters.get('basic_net'),
                 locked: this.tab.isLocked()
             })).i18n();
             this.composeBindings();
