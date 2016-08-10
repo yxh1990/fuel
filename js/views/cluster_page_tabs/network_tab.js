@@ -456,7 +456,15 @@ function($, _, i18n, Backbone, utils, models, commonViews, dialogViews, networkT
     NetworkingParameters = NetworkTabSubview.extend({
         template: _.template(networkingParametersTemplate),
         events:{
-           
+           'change #basenet_enaled':'changeapplybutton',
+           'keypress #baserange0':'changeapplybutton',
+           'keypress #baserange1': 'changeapplybutton',
+           'keypress #basenet_gateway':'changeapplybutton',
+           'change #l3enabled':'changeapplybutton'
+        },
+        changeapplybutton:function()
+        {
+         $(document.getElementById('applybtn')).removeAttr('disabled');
         },
         bindings: {
             'input[name=fixed_networks_cidr]': 'fixed_networks_cidr',
