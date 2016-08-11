@@ -64,6 +64,7 @@ class NeutronConfig(NetworkingConfig):
     external_gateway = Column(String(25))
     l3_enabled = Column(Boolean, default=True)
     basic_net = Column(Text)
+    external_config = Column(Text)
     segmentation_type = Column(
         Enum(*consts.NEUTRON_SEGMENT_TYPES,
              name='segmentation_type'),

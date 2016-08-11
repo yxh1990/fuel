@@ -42,11 +42,7 @@ function($, _, i18n, Backbone, utils, models, commonViews, NodesTab, NodesNeedIn
           {
              return [
                      ['操作系统安装','#installOscloud'],
-                     ['Openstack环境','#clusters'],
-                     ['CloudMaster环境','#clustersbigcloud'],
-                     ['EBS环境','#clustersbigcloud'],
-                     ['Openstack定制环境','#clusters'],
-                     ['ONEST环境','#clustersonest']
+                     ['Openstack定制环境','#clusters']
                    ];
           }
         },

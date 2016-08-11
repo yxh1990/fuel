@@ -104,9 +104,10 @@ class ReadCsvHandler(BaseHandler):
         data['cabinet']=table.row(i)[5].value
         data['gene_room']=table.row(i)[6].value
         data['power_status']=table.row(i)[7].value
-        data['operation_status']=table.row(i)[8].value
-        data['mac']=table.row(i)[9].value.lower()
-        data['use_type']=table.row(i)[10].value
+        data['mac']=table.row(i)[8].value.lower()
+        data['use_type']=table.row(i)[9].value
+        #data['operation_status']=table.row(i)[8].value
+        data['operation_status']=1
         return data
 
    def call_success_back(self):
@@ -392,9 +393,8 @@ class PhymachinesexportHandler(BaseHandler):
        ws.write(3,5,u"机柜名称")
        ws.write(3,6,u"机房名称")
        ws.write(3,7,u"电源状态")
-       ws.write(3,8,u"操作系统安装状态")
-       ws.write(3,9,u"MAC地址")
-       ws.write(3,10,u"用处类型")
+       ws.write(3,8,u"MAC地址")
+       ws.write(3,9,u"用处类型")
        datas=objects.PhysicalMachineInfoCollection.all()
        row=4  #默认从excel文件的第5行开始读取数据
        for data in datas:
@@ -406,9 +406,9 @@ class PhymachinesexportHandler(BaseHandler):
             ws.write(row,5,data['cabinet'])
             ws.write(row,6,data['gene_room'])
             ws.write(row,7,data['power_status'])
-            ws.write(row,8,data['operation_status'])
-            ws.write(row,9,data['mac'])
-            ws.write(row,10,data['use_type'])
+            #ws.write(row,8,data['operation_status'])
+            ws.write(row,8,data['mac'])
+            ws.write(row,9,data['use_type'])
             row=row+1
 
        sio=StringIO.StringIO()

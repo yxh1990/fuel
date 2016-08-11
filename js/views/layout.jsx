@@ -78,7 +78,7 @@ function($, _, i18n, i18next, Backbone, React, utils, models, componentMixins, d
         },
         getInitialState: function() {
             return {
-                activeElement: null,
+                activeElement: "onetab",
                 popoverVisible: false,
                 hidden: false,
                 setindex:false
@@ -91,28 +91,6 @@ function($, _, i18n, i18next, Backbone, React, utils, models, componentMixins, d
           var alist=ul.find("li a");
           alist.removeClass('active');
           abtn.addClass('active');
-          this.getClustertype(abtn);
-        },
-        getClustertype:function(abtn)
-        {
-          //以后需要修改代码,设置不同cluster类型
-          var tabname=abtn.attr('href');
-          if(tabname=="#clusters")
-          {
-            app.cluster_type=1;
-          }
-          if(tabname=="#clustersbigcloud")
-          {
-             app.cluster_type=2;
-          } 
-         if(tabname=="#clustersebs")
-          {
-             app.cluster_type=3;
-          } 
-         if(tabname=="#clusterscustom")
-          {
-             app.cluster_type=4;
-          } 
         },
         render: function() {
             if (this.state.hidden) {
@@ -136,9 +114,9 @@ function($, _, i18n, i18next, Backbone, React, utils, models, componentMixins, d
                                 <li className='product-logo'>
                                     <a href='#'><div className='logo'></div></a>
                                 </li>
-                                {_.map(this.props.elements, function(element) {
+                                {_.map(this.props.elements, function(element) { 
                                     return <li key={element.label}>
-                                        <a className={cx({active: this.state.activeElement == element.url.slice(1)})} onClick={this.changeActiveElement} href={element.url}>{i18n('navbar.' + element.label, {defaultValue: element.label})}</a>
+                                        <a className={cx({active: this.state.activeElement == element.url.slice(1) || ((this.state.activeElement=="onetab" ||this.state.activeElement=="clusters") && element.url.slice(1)=="ops/sys")})} onClick={this.changeActiveElement} href={element.url}>{i18n('navbar.' + element.label, {defaultValue: element.label})}</a>
                                     </li>;
                                 }, this)}
                                 <li className='space'></li>
@@ -330,26 +308,11 @@ function($, _, i18n, i18next, Backbone, React, utils, models, componentMixins, d
         setClustertype: function(e) {
           var abtn=$(e.target);
           var clusterype=abtn.attr('href');
-          if(clusterype=="#clusters")
-          {
-            app.cluster_type=1;
-          }
-          if(clusterype=="#clustersbigcloud")
-          {
-             app.cluster_type=2;
-          }
-          if(clusterype=="#clustersebs")
-          {
-             app.cluster_type=3;
-          } 
-          if(clusterype=="#clusterscustom")
-          {
-             app.cluster_type=4;
-          } 
-          if(clusterype=="#clustersonest")
-          {
-             app.cluster_type=5;
-          } 
+           
+     
+          app.cluster_type=4;
+         
+          
           var ul=abtn.parent().parent();
           ul.children().children().css("background-color","");
           abtn.css("background-color","#003e83");
@@ -359,7 +322,7 @@ function($, _, i18n, i18next, Backbone, React, utils, models, componentMixins, d
             var ul=$("body").find(".breadcrumb");
             var alist=ul.find("li a");
             ul.children().children().css("background-color","");
-            $(alist[1]).css("background-color","#003e83");
+            $(alist[0]).css("background-color","#003e83");
         },
         render:function() {
             if (this.state.hidden) {

@@ -224,10 +224,10 @@ function($, _, i18n, Backbone, React, utils, layoutComponents, Coccyx, coccyxMix
             this.toggleElements(!this.page.hiddenLayout);
             
             this.setActivebar(tabname);
-            if(app.cluster_type==1 && tabname.indexOf('installOscloud')<=0)
+            /*if(tabname.indexOf('installOscloud')<=0)
             {
               app.breadcrumbs.setfristsencodbar();
-            }
+            }*/
         },
         setActivebar:function(tabname)
         {
@@ -248,37 +248,9 @@ function($, _, i18n, Backbone, React, utils, layoutComponents, Coccyx, coccyxMix
              $(alist[0]).css("background-color","");
           }
 
-          if(tabname.indexOf('clustersbigcloud')>0)
-          {
-            $(alist[2]).css("background-color","#003e83");
-          }
-          else
-          {
-             $(alist[2]).css("background-color","");
-          }
-
           if(tabname.indexOf('cluster')>0)
           {
-             if(app.cluster_type==1)
-             {
-               $(alist[1]).css("background-color","#003e83");
-             }
-             if(app.cluster_type==2)
-             {
-               $(alist[2]).css("background-color","#003e83"); 
-             }
-             if(app.cluster_type==3)
-             {
-               $(alist[3]).css("background-color","#003e83"); 
-             }
-             if(app.cluster_type==4)
-             {
-               $(alist[4]).css("background-color","#003e83"); 
-             }
-             if(app.cluster_type==5)
-             {
-               $(alist[5]).css("background-color","#003e83"); 
-             }
+            $(alist[1]).css("background-color","#003e83");  
           }
         },
         // pre-route hook

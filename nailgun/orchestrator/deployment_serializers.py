@@ -756,6 +756,14 @@ class NeutronNetworkDeploymentSerializer(NetworkDeploymentSerializer):
         return json.loads(cluster.network_config.basic_net)
 
     @classmethod
+    def getnetwork_vlanid(cls,external_config,key):
+        dict_config = json.loads(external_config)
+        if dict_config.has_key(key):
+            return dict_config[key]
+        else:
+            return ""
+
+    @classmethod
     def _generate_external_network(cls, cluster):
         public_cidr, public_gw = db().query(
             NetworkGroup.cidr,
@@ -771,6 +779,7 @@ class NeutronNetworkDeploymentSerializer(NetworkDeploymentSerializer):
                 #"gateway": public_gw, #这个网关值
                 "gateway": cluster.network_config.external_gateway,
                 "enabled": cluster.network_config.l3_enabled,
+                "vlan_id": cls.getnetwork_vlanid(cluster.network_config.external_config,'vlan_id'),
                 "nameservers": [],
                 "floating": join_range(
                     cluster.network_config.floating_ranges[0]),

@@ -143,11 +143,18 @@ function($, _, i18n, Backbone, utils, models, commonViews, dialogViews, networkT
           var L3={};
               L3['nameservers']="[]";
               L3['range']=this.$('#baserange0').val()+":"+this.$('#baserange1').val();
+              L3['vlan_id']=this.$('#basenet_vlan').val();
               L3['gateway']=this.$('#basenet_gateway').val();
               L3['enable_dhcp']=true;
               L3['enabled']=document.getElementById("basenet_enaled").checked;
          basic_net['L3']=L3;
          return basic_net;
+        },
+        getExternel_config:function()
+        {
+           var config ={};
+               config["vlan_id"] = this.$('#external_vlanid').val();
+           return config;
         },
         applyChanges: function() {
             var deferred;
@@ -157,7 +164,8 @@ function($, _, i18n, Backbone, utils, models, commonViews, dialogViews, networkT
                 this.prepareIpRanges();
                 var l3enabled=document.getElementById("l3enabled").checked;
                 var basenet=JSON.stringify(this.getBase_Net());
-                this.networkConfiguration.get('networking_parameters').set({'l3_enabled':l3enabled,'basic_net':basenet});
+                var external_config = JSON.stringify(this.getExternel_config());
+                this.networkConfiguration.get('networking_parameters').set({'l3_enabled':l3enabled,'basic_net':basenet,'external_config':external_config});
                 deferred = Backbone.sync('update', this.networkConfiguration)
                     .done(_.bind(function(task) {
                         if (task && task.status == 'error') {
@@ -460,6 +468,8 @@ function($, _, i18n, Backbone, utils, models, commonViews, dialogViews, networkT
            'keypress #baserange0':'changeapplybutton',
            'keypress #baserange1': 'changeapplybutton',
            'keypress #basenet_gateway':'changeapplybutton',
+           'keypress #basenet_vlan':'changeapplybutton',
+           'keypress #external_vlanid':'changeapplybutton',
            'change #l3enabled':'changeapplybutton'
         },
         changeapplybutton:function()
@@ -530,6 +540,7 @@ function($, _, i18n, Backbone, utils, models, commonViews, dialogViews, networkT
                 segmentation: this.parameters.get('segmentation_type'),
                 l3enabled: this.parameters.get('l3_enabled'),
                 basic_net: this.parameters.get('basic_net'),
+                external_config: this.parameters.get('external_config'),
                 locked: this.tab.isLocked()
             })).i18n();
             this.composeBindings();

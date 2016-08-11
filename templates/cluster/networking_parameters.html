@@ -179,6 +179,18 @@
         <div class="error validation-error"><span class="help-inline"></span></div>
       </div>
     </div>
+     <% var config = JSON.parse(external_config);
+        console.log(config); 
+        var vlanid =config?config["vlan_id"]:null;
+      %>
+    <div class="network-attribute">
+        <label class="parameter-box clearfix">
+          <div class="parameter-name">VLAN ID</div>
+          <div class="parameter-control"><input type="text" id="external_vlanid" <%= disabled %>  value="<%= vlanid?vlanid:'' %>"/></div>
+          <div class="error validation-error"><span class="help-inline"></span></div>
+        </label>
+      </div>
+  </div>
     
   <div class="network-attribute">
         <label class="parameter-box clearfix">
@@ -236,6 +248,18 @@
            <span class="help-inline"></span>
         </div>
       </div>
+    </div>
+
+    <div class="network-attribute">
+        <label class="parameter-box clearfix">
+          <div class="parameter-name">VLAN ID</div>
+          <div class="parameter-control">
+             <input type="text" id="basenet_vlan" <%= disabled %> value="<%= l3?l3['vlan_id']:'' %>" />
+          </div>
+          <div class="error validation-error">
+             <span class="help-inline"></span>
+          </div>
+        </label>
     </div>
 
     <div class="network-attribute">

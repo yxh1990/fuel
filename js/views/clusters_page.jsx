@@ -31,34 +31,11 @@ function($, _, i18n, React, models, utils, componentMixins, wizard) {
     ClustersPage = React.createClass({
         navbarActiveElement: 'clusters',
         breadcrumbsPath: [['操作系统安装','#installOscloud'],
-                          ['Openstack环境','#clusters'],
-                          ['CloudMaster环境','#clustersbigcloud'],
-                          ['EBS环境','#clustersebs'],
-                          ['Openstack定制环境','#clusterscustom'],
-                          ['ONEST环境','#clustersonest']
+                          ['Openstack定制环境','#clusterscustom']
                          ],
         title: function() {
                var title="";
-               if(app.cluster_type== '1')
-               {
-                   title='我的Openstack环境'
-               }
-               if(app.cluster_type== '2')
-               {
-                   title='我的CloudMaster环境'
-               }
-              if(app.cluster_type== '3')
-               {
-                   title='我的EBS环境'
-               }
-              if(app.cluster_type== '4')
-               {
                    title='我的Openstack定制环境'
-               }
-              if(app.cluster_type== '5')
-               {
-                   title='我的ONEST环境'
-               }
          return title;
         },
         statics: {
@@ -67,28 +44,9 @@ function($, _, i18n, React, models, utils, componentMixins, wizard) {
                 var clusters_bytype= new models.Clusters();
                 var nodes = new models.Nodes();
                 var tasks = new models.Tasks();
-                //app.cluster_type=app.cluster_type?app.cluster_type:1;
+                app.cluster_type=app.cluster_type?app.cluster_type:4;
                 var tabname=window.location.hash.toString();
-                if(tabname.indexOf('clustersbigcloud')>0)
-                {
-                   app.cluster_type=2; 
-                }
-                else if(tabname.indexOf('clustersebs')>0)
-                {
-                   app.cluster_type=3;  
-                }
-                else if(tabname.indexOf('clusterscustom')>0)
-                {
-                   app.cluster_type=4;  
-                }
-                else if(tabname.indexOf('clustersonest')>0)
-                {
-                   app.cluster_type=5;  
-                }
-                else
-                {
-                   app.cluster_type=1; 
-                }
+                
 
                 return $.when(clusters.fetch(), nodes.deferred = nodes.fetch(), tasks.fetch()).done(_.bind(function() {
                     clusters_bytype=new models.Clusters(clusters.where({cluster_type:parseInt(app.cluster_type)},false));
@@ -107,19 +65,7 @@ function($, _, i18n, React, models, utils, componentMixins, wizard) {
                 <div>
                     <h3 className="page-title">
                      {
-                        app.cluster_type== '1' && '我的Openstack环境'
-                     }
-                     {
-                        app.cluster_type== '2' && '我的CloudMaster环境'
-                     }
-                     {
-                        app.cluster_type== '3' && '我的EBS环境'
-                     }
-                     {
                         app.cluster_type== '4' && '我的Openstack定制环境'
-                     }
-                     {
-                        app.cluster_type== '5' && '我的ONEST环境'
                      }
                     </h3>
                     <ClusterList clusters={this.props.clusters} />
@@ -143,11 +89,7 @@ function($, _, i18n, React, models, utils, componentMixins, wizard) {
                         <div key="add" className="span3 clusterbox create-cluster" onClick={this.createCluster}>
                             <div className="add-icon"><i className="icon-create"></i></div>
                             <div className="create-cluster-text">
-                              {app.cluster_type== '1' && '新建openstack环境' }
-                              {app.cluster_type== '2' && '新建CloudMaster环境' }
-                              {app.cluster_type== '3' && '新建EBS环境' }
-                              {app.cluster_type== '4' && '新建Openstack定制环境' }
-                              {app.cluster_type== '5' && '新建ONEST环境' }
+                               新建Openstack定制环境
                             </div>
                         </div>
                     </div>
