@@ -125,11 +125,11 @@ class NetworkManager(object):
         :param network: Network database object.
         :returns: IPAddr object or None
         """
-        if node.ip and cls.check_ip_belongs_to_net(node.ip, network):
-            return IPAddr(node=node.id,
-                          ip_addr=node.ip,
-                          network=network.id)
-        return None
+        #此处暂时先注释掉
+        #if node.ip and cls.check_ip_belongs_to_net(node.ip, network):
+        logger.info("the node {0} admin ip is {1} power ip is {2}".format(node.name,node.ip,node.power_ip))
+        return IPAddr(node=node.id,ip_addr=node.ip,network=network.id)
+        #return None
 
     @classmethod
     def assign_admin_ips(cls, nodes):
@@ -151,10 +151,11 @@ class NetworkManager(object):
             admin_net = cls.get_admin_network_group(node_id)
             node_admin_ips = db().query(IPAddr).filter_by(
                 node=node_id, network=admin_net.id)
-            logger.debug(u"Trying to assign admin ip: node=%s", node_id)
+            logger.debug(u"Trying to assign admin ip: node={0} and the ip is {1}".format(node_id,node.ip))
             if not db().query(node_admin_ips.exists()).scalar():
                 reusable_ip = cls.reusable_ip_address(node, admin_net)
                 if reusable_ip:
+                    logger.info("")
                     db().add(reusable_ip)
                 else:
                     nodes_need_ips[admin_net].append(node_id)
@@ -342,6 +343,7 @@ class NetworkManager(object):
     @classmethod
     def check_ip_belongs_to_net(cls, ip_addr, network):
         addr = IPAddress(ip_addr)
+
         for r in network.ip_ranges:
             if addr in IPRange(r.first, r.last):
                 return True

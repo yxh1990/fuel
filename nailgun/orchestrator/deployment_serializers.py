@@ -753,13 +753,19 @@ class NeutronNetworkDeploymentSerializer(NetworkDeploymentSerializer):
         return iface_attrs
     @classmethod
     def _generate_basic_network(cls,cluster):
-        return json.loads(cluster.network_config.basic_net)
+        if cluster.network_config.basic_net:
+           return json.loads(cluster.network_config.basic_net)
+        else:
+            return ""
 
     @classmethod
     def getnetwork_vlanid(cls,external_config,key):
-        dict_config = json.loads(external_config)
-        if dict_config.has_key(key):
-            return dict_config[key]
+        if external_config:
+           dict_config = json.loads(external_config)
+           if dict_config.has_key(key):
+              return dict_config[key]
+           else:
+              return ""
         else:
             return ""
 
