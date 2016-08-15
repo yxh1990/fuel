@@ -502,20 +502,19 @@ function($, _, i18n, React, utils, models, controls, dialogs, componentMixins) {
             //fla是表示用来区分openstack定制环境和其他类型的环境
             //如果不是定制化openstack在操作完clusterRolesStatus表后
             //就必须开始启动执行task
+
+            var btn = $(this.refs.btnstart.getDOMNode());
+            $(btn).attr("disabled","true");
+            alert("正在启动中,请等待....");
+
             $.ajax({
                 type: "POST",
                 url: "/api/cluster/startrole/",
                 data: "rolename="+rolename+"&clusterId="+this.props.cluster.id+"&clusterType="+this.props.cluster.get('cluster_type'),
                 success: _.bind(function(msg){
                     console.log("成功设置启动角色");
-                    if(this.props.cluster.get('cluster_type')=="4")
-                    {
-                      alert("正在启动中,后台启动耗费时间较长请耐心等候.....");
-                    }
                     if(this.refs.btnstart)
                     {
-                      var btn = $(this.refs.btnstart.getDOMNode());
-                      $(btn).attr("disabled","true");
                       if(fla){this.afterStartOrStop();} 
                       //启动和停止后必须重新读取数据库,否则启动和停止按钮不会自动切换.
                       var clusterRolesStatus=new models.ClusterRoleStatus();

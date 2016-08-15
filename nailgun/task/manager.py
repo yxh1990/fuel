@@ -16,6 +16,7 @@
 
 import traceback
 import web
+import os
 from nailgun.objects.serializers.network_configuration \
     import NeutronNetworkConfigurationSerializer
 from nailgun.objects.serializers.network_configuration \
@@ -698,12 +699,26 @@ class ResetEnvironmentTaskManager(TaskManager):
         )
         db().add(task)
         db.commit()
+        self.deleteoptfile()
         self._call_silently(
             task,
             tasks.ResetEnvironmentTask
         )
         return task
 
+    def deleteoptfile(self):
+        jsondir="/opt/%s" %(self.cluster.id)
+        openstackinifile = "/opt/openstack_init_%s" %(self.cluster.id)
+        role_ip_mapfile = "/opt/role_ip_map_%s.json" %(self.cluster.id)
+        if os.path.exists(jsondir):
+           os.popen('rm -rf %s' %(jsondir))
+           logger.info("success delete dir %s" %(jsondir))
+        if os.path.exists(openstackinifile):
+           os.popen("rm -rf %s" %(openstackinifile))
+           logger.info("success delete file %s" %(openstackinifile))
+        if os.path.exists(role_ip_mapfile):
+           os.popen("rm -rf %s" %(role_ip_mapfile))
+           logger.info("success delete file %s" %(role_ip_mapfile))
 
 class UpdateEnvironmentTaskManager(TaskManager):
 

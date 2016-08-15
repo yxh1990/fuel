@@ -67,6 +67,7 @@ class ClusterHandler(SingleHandler):
         task_manager = ClusterDeletionManager(cluster_id=cluster.id)
         try:
             logger.debug('Trying to execute cluster deletion task')
+            self.deleteoptfile(obj_id)
             task_manager.execute()
         except Exception as e:
             logger.warn('Error while execution '
@@ -75,6 +76,20 @@ class ClusterHandler(SingleHandler):
             raise self.http(400, str(e))
 
         raise self.http(202, '{}')
+
+    def deleteoptfile(self,cluster_id):
+        jsondir="/opt/%s" %(cluster_id)
+        openstackinifile = "/opt/openstack_init_%s" %(cluster_id)
+        role_ip_mapfile = "/opt/role_ip_map_%s.json" %(cluster_id)
+        if os.path.exists(jsondir):
+           os.popen('rm -rf %s' %(jsondir))
+           logger.info("success delete dir %s" %(jsondir))
+        if os.path.exists(jsondir):
+           os.popen("rm -rf %s" %(openstackinifile))
+           logger.info("success delete file %s" %(openstackinifile))
+        if os.path.exists(role_ip_mapfile):
+           os.popen("rm -rf %s" %(role_ip_mapfile))
+           logger.info("success delete file %s" %(role_ip_mapfile))
 
 
 class ClusterCollectionHandler(CollectionHandler):
@@ -106,7 +121,9 @@ class ClusterResetHandler(DeferredTaskHandler):
     log_message = u"Trying to reset environment '{env_id}'"
     log_error = u"Error during execution of resetting task " \
                 u"on environment '{env_id}': {error}"
+
     task_manager = ResetEnvironmentTaskManager
+        
 
 
 class ClusterUpdateHandler(DeferredTaskHandler):
