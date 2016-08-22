@@ -654,11 +654,14 @@ class NailgunReceiver(object):
                    dashboard_url="http://{0}:8080/EBS_Management_System".format(horizon_ip)
                 elif task.cluster.cluster_type==4:
                     cluster_typename="OpenStack"
+                    setting=cls.get_cluster_setting(task.cluster)
+                    horizon_ip=setting['haproxy-keepalived']['haproxy_vip1']
+                    dashboard_url="http://{0}/dashboard".format(horizon_ip)
                 elif task.cluster.cluster_type==5:
                     cluster_typename="ONEST"
                     
                 message = (
-                    u"{0} of cluster '{1}' is done.Access {2} dashboard (Horizon) at {3}"
+                    u"{0} of cluster '{1}' is done.After start,Access {2} dashboard (Horizon) at {3}"
                 ).format(
                     task_name,
                     task.cluster.name,
