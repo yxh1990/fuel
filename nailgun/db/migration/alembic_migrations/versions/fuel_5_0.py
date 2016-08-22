@@ -417,7 +417,8 @@ def upgrade():
                         ['node_id'], ['nodes.id'], ondelete='CASCADE'),
                     sa.ForeignKeyConstraint(
                         ['parent_id'], ['node_bond_interfaces.id'], ),
-                    sa.PrimaryKeyConstraint('id')
+                    sa.PrimaryKeyConstraint('id'),
+                    sa.Column('pxe',sa.Boolean(),nullable=False,server_default='false')
                     )
     op.create_table('net_bond_assignments',
                     sa.Column('id', sa.Integer(), nullable=False),

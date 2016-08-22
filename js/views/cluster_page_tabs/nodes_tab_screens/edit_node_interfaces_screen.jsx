@@ -35,7 +35,7 @@ function($, _, Backbone, React, i18n, utils, models, dispatcher, dialogs, contro
 
     ScreenMixin = {
         goToNodeList: function() {
-            app.navigate('#cluster/' + this.props.cluster.get('id') + '/nodes', {trigger: true});
+            app.navigate('#cluster/' + app.page.model.get('id') + '/nodes', {trigger: true});
         },
         isLockedScreen: function() {
             var nodesAvailableForChanges = this.props.nodes.filter(function(node) {
@@ -593,6 +593,7 @@ function($, _, Backbone, React, i18n, utils, models, dispatcher, dialogs, contro
             /*console.log(app.page.model);
             console.log(app.page.model.get('networkConfiguration'));
             console.log(app.page.model.get('networkConfiguration').get('networking_parameters'));*/
+            //console.log(this.props.bondingAvailable);
             //console.log(this.props.interface.get('assigned_networks'));
             var configureInterfacesTransNS = 'cluster_page.nodes_tab.configure_interfaces.',
                 ifc = this.props.interface,
@@ -605,9 +606,10 @@ function($, _, Backbone, React, i18n, utils, models, dispatcher, dialogs, contro
                 assignedNetworks = ifc.get('assigned_networks'),
                 bondable = this.props.bondingAvailable && assignedNetworks && !assignedNetworks.find(function(interfaceNetwork) {
                       //console.log("第一次getFullNetwork");
-                      //console.log(interfaceNetwork);
+                      //console.log(interfaceNetwork.getFullNetwork(networks).get('meta'));
                     return interfaceNetwork.getFullNetwork(networks).get('meta').unmovable;
                 }),
+                bondable = true, //暂时先覆盖上面的值
                 slaveOnlineClass = function(slave) {
                     var slaveDown = slave.get('state') == 'down';
                     return {
@@ -690,7 +692,7 @@ function($, _, Backbone, React, i18n, utils, models, dispatcher, dialogs, contro
                         }
 
                         <div className='physical-network-checkbox'>
-                            {!ifc.isBond() && bondable && <controls.Input type='checkbox' onChange={this.bondingChanged} checked={ifc.get('checked')} />}
+                            {!ifc.isBond() && bondable &&<controls.Input type='checkbox' onChange={this.bondingChanged} checked={ifc.get('checked')} />} 
                         </div>
 
                         <div className='network-connections-block'>

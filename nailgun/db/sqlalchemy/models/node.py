@@ -339,6 +339,7 @@ class NodeNICInterface(Base):
     interface_properties = Column(JSON, default={},nullable=False,server_default='{}')
     driver = Column(Text)
     bus_info = Column(Text)
+    pxe = Column(Boolean, default=False, nullable=False)
 
     @property
     def type(self):

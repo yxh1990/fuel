@@ -63,6 +63,7 @@ class NodeInterfacesSerializer(BasicSerializer):
         'interface_properties',
         'driver',
         'bus_info',
+        'pxe'
     )
     bond_fields = (
         'mac',

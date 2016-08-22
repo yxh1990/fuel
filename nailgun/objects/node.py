@@ -201,6 +201,31 @@ class Node(NailgunObject):
         return True
 
     @classmethod
+    def get_admin_physical_iface(cls, instance):
+        """Returns node's physical iface.
+
+        In case if we have bonded admin iface, first
+        of the bonded ifaces will be returned
+
+        :param instance: Node instance
+        :returns: interface instance
+        """
+        admin_iface = Cluster.get_network_manager(instance.cluster) \
+            .get_admin_interface(instance)
+
+        if admin_iface.type != consts.NETWORK_INTERFACE_TYPES.bond:
+            return admin_iface
+        
+        logger.info(admin_iface.slaves)
+        for slave in admin_iface.slaves:
+
+            if slave.pxe or slave.mac == instance.mac:
+                return slave
+
+        return admin_iface.slaves[-1]
+
+        
+    @classmethod
     def create(cls, data):
         """Create Node instance with specified parameters in DB.
         This includes:
