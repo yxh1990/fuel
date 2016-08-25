@@ -180,6 +180,7 @@ function($, _, utils, models, commonViews, Backbone, clusterPageviews, dialogs, 
                haproxy['haproxy_vipinterface2']=this.$('#txt_haproxy_vipinterface2').val();
 
            var global={};
+               global["bclinux_repo_ip"]=this.$('#txt_global_repo_ip').val();
                global["bclinux_repo_url"]=this.$('#txt_global_yum_url').val();
                global["fuel_master_ip"]=this.$('#txt_fuel_master_ip').val();
                var cluster_id=this.page.model.id;

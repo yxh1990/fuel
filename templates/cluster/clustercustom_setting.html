@@ -23,6 +23,18 @@
         <div class="parameter-box clearfix tablerow-wrapper">
           <label class="parameter-name">
              <div class="label-wrapper">
+                <span>bclinux_repo_ip</span>
+             </div>
+             <input type="text" id="txt_global_repo_ip"  value="<%= data.global['bclinux_repo_ip']?data.global['bclinux_repo_ip']:'10.142.18.8'%>" label="txt_global_repo_ip" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
                 <span>bclinux_repo_url</span>
              </div>
              <input type="text" id="txt_global_yum_url"  value="<%= data.global['bclinux_repo_url']?data.global['bclinux_repo_url']:'mirrors.bclinux.org'%>" label="txt_global_yum_url" class="parameter-input longwidthtext">
