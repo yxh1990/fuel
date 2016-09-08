@@ -96,7 +96,8 @@ def cast(name, message, service=False):
                 exchange=use_exchange, routing_key=name, declare=[use_queue])
             try:
                 #pass
-                publish()
+                #publish()
+                logger.info(u"暂时屏蔽publish函数")
             except amqp_exceptions.PreconditionFailed as e:
                 logger.warning(six.text_type(e))
                 # (dshulyak) we should drop both exchanges/queues in order
@@ -104,4 +105,5 @@ def cast(name, message, service=False):
                 utils.delete_entities(
                     conn, naily_service_exchange, naily_service_queue,
                     naily_exchange, naily_queue)
-                publish()
+                #publish()
+                logger.info(u"暂时屏蔽publish函数")

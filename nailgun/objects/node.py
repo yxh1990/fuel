@@ -216,7 +216,7 @@ class Node(NailgunObject):
         if admin_iface.type != consts.NETWORK_INTERFACE_TYPES.bond:
             return admin_iface
         
-        logger.info(admin_iface.slaves)
+        #logger.info(admin_iface.slaves)
         for slave in admin_iface.slaves:
 
             if slave.pxe or slave.mac == instance.mac:
@@ -717,7 +717,7 @@ class Node(NailgunObject):
                    data["name"] = "{0}".format(
                          phymachine.name
                    )
-        logger.info(data)
+        #logger.info(data)
         return cls.update(instance, data)
 
     @classmethod
